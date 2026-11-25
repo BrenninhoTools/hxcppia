@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.1.0
+-----
+
+- Added a C++ module: header checks, FNV-1a hashes, native file stamps, script format version and a nanosecond clock.
+- Invalid files are rejected before reaching hxcpp.
+- Hot reload compares content hashes, so saving a file without changes does not reload it.
+- Added a profiler (`Cppia.profiling`, `stats`, `profileReport`, `resetStats`).
+
 1.0.1
 -----
 

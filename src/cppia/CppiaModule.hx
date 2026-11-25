@@ -15,6 +15,9 @@ class CppiaModule
 	public var entry(default, null):Null<Class<Dynamic>>;
 	public var priority:Int = 0;
 	public var modifiedTime:Float = 0;
+	public var hash:String = "";
+	public var size:Int = 0;
+	public var stats(default, null):Map<String, CppiaStat> = new Map();
 	public var data:Map<String, Dynamic> = new Map();
 
 	#if (cpp && scriptable)
@@ -127,10 +130,13 @@ class CppiaModule
 		if (!active) return null;
 		var mapped:String = Cppia.callNames.exists(field) ? Cppia.callNames.get(field) : field;
 		var result:Dynamic = null;
+		var profiling:Bool = Cppia.profiling;
 		for (instance in instances.copy())
 		{
 			var func:Dynamic = Reflect.getProperty(instance, mapped);
 			if (!Reflect.isFunction(func)) continue;
+			var started:Float = profiling ? Cppia.now() : 0;
+			var failed:Bool = false;
 			try
 			{
 				var value:Dynamic = Reflect.callMethod(instance, func, args != null ? args : []);
@@ -138,7 +144,15 @@ class CppiaModule
 			}
 			catch (e:Dynamic)
 			{
+				failed = true;
 				Cppia.report(this, path, field, e);
+			}
+			if (profiling)
+			{
+				var stat:CppiaStat = stats.get(field);
+				if (stat == null) stats.set(field, stat = new CppiaStat(field));
+				stat.add(Cppia.now() - started);
+				if (failed) stat.errors++;
 			}
 		}
 		return result;
@@ -188,7 +202,35 @@ class CppiaModule
 
 	public function changed():Bool
 	{
-		return modifiedTime > 0 && Cppia.modified(path) > modifiedTime;
+		if (modifiedTime <= 0) return false;
+		var stamp:Float = Cppia.modified(path);
+		if (stamp <= modifiedTime) return false;
+		if (hash.length > 0 && Cppia.hashFile(path) == hash)
+		{
+			modifiedTime = stamp;
+			return false;
+		}
+		return Cppia.fileFormat(path) != INVALID;
+	}
+
+	public function profileReport():String
+	{
+		var list:Array<CppiaStat> = [for (stat in stats) stat];
+		list.sort(function(a, b) return a.totalMs < b.totalMs ? 1 : (a.totalMs > b.totalMs ? -1 : 0));
+		var lines:Array<String> = ['$name:'];
+		for (stat in list)
+			lines.push('  ${stat.field}: ${stat.calls} calls, ${round(stat.totalMs)} ms total, ${round(stat.averageMs)} ms average, ${round(stat.maxMs)} ms max' + (stat.errors > 0 ? ', ${stat.errors} errors' : ''));
+		return lines.join('\n');
+	}
+
+	public function resetStats():Void
+	{
+		stats.clear();
+	}
+
+	static inline function round(value:Float):Float
+	{
+		return Math.round(value * 1000) / 1000;
 	}
 
 	public function reload():Null<CppiaModule>

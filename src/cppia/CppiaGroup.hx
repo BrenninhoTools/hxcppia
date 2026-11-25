@@ -110,6 +110,17 @@ class CppiaGroup
 		return count;
 	}
 
+	public function profileReport():String
+	{
+		return [for (module in modules) module.profileReport()].join('\n');
+	}
+
+	public function resetStats():Void
+	{
+		for (module in modules)
+			module.resetStats();
+	}
+
 	public function destroy():Void
 	{
 		for (module in modules)

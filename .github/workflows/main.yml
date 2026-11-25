@@ -19,8 +19,19 @@ jobs:
         with:
           haxe-version: 4.3.7
 
+      - name: Native test
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = Windows ]; then
+            g++ -std=c++17 -Iproject/include project/tests/native_test.cpp project/src/hxcppia.cpp -o native_test.exe && ./native_test.exe
+          else
+            c++ -std=c++17 -Iproject/include project/tests/native_test.cpp project/src/hxcppia.cpp -o native_test && ./native_test
+          fi
+
       - name: Install hxcpp
-        run: haxelib install hxcpp --quiet
+        run: |
+          haxelib install hxcpp --quiet
+          haxelib dev hxcppia .
 
       - name: Build host
         run: haxe host.hxml
@@ -36,6 +47,5 @@ jobs:
       - name: Tool
         shell: bash
         run: |
-          haxelib dev hxcppia .
           haxelib run hxcppia new Demo tests/bin/demo
           test -f tests/bin/demo/Demo.hx

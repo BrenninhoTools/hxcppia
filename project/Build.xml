@@ -1,0 +1,17 @@
+<xml>
+	<pragma once="true"/>
+
+	<files id="hxcppia" dir="${this_dir}">
+		<compilerflag value="-I${this_dir}/include"/>
+		<depend name="${this_dir}/include/hxcppia.h"/>
+		<file name="src/hxcppia.cpp"/>
+	</files>
+
+	<files id="haxe">
+		<compilerflag value="-I${this_dir}/include"/>
+	</files>
+
+	<target id="haxe">
+		<files id="hxcppia"/>
+	</target>
+</xml>

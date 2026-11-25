@@ -4,3 +4,4 @@ dump/
 bin/
 tests/bin/
 run.n.tmp
+export_classes.info

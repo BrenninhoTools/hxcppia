@@ -7,6 +7,9 @@ Load and run [cppia](https://haxe.org/manual/target-cppia.html) scripts in hxcpp
 - Groups with priorities, stop values, folder loading and hot reload
 - Error reporting with the script path, the function and the stack
 - `haxelib run cppia` tool to create and build scripts
+- Header checks in C++ before a file reaches hxcpp, so a broken or wrong file reports an error instead of crashing
+- FNV-1a content hashes and native file stamps, so hot reload only fires when a script really changed
+- A profiler with calls, total, average and max time per function, timed with a nanosecond clock
 - Safe no-ops on targets without cppia support
 
 ## Install
@@ -14,7 +17,7 @@ Load and run [cppia](https://haxe.org/manual/target-cppia.html) scripts in hxcpp
 The haxelib is called `hxcppia`: a library named `cppia` would define `cppia` and make Haxe compile the whole game as a cppia script.
 
 ```
-haxelib git hxcppia https://github.com/BrenninhoTools/cppia
+haxelib git hxcppia https://github.com/BrenninhoTools/hxcppia
 ```
 
 ## Host (the game)
@@ -60,6 +63,24 @@ module.call('onBeat', [16]);
 module.set('speed', 2);
 module.callStatic('Boss', 'spawn', []);
 module.destroy();
+```
+
+## Profiling
+
+```haxe
+Cppia.profiling = true;
+scripts.call('onUpdate', [elapsed]);
+showText(scripts.profileReport());
+scripts.resetStats();
+```
+
+## Native helpers
+
+```haxe
+Cppia.fileFormat('mods/scripts/Boss.cppia');
+Cppia.hashFile('mods/scripts/Boss.cppia');
+Cppia.version(bytes);
+Cppia.now();
 ```
 
 ## Scripts
