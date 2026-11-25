@@ -1,0 +1,6 @@
+-cp src
+-cp tests
+-cp tests/script
+TestScript
+-D dll_import=tests/bin/export_classes.info
+-cppia tests/bin/TestScript.cppia

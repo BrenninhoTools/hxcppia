@@ -1,0 +1,12 @@
+{
+	"name": "cppia",
+	"url": "https://github.com/BrenninhoTools/cppia",
+	"license": "MIT",
+	"tags": ["cppia", "scripting", "hxcpp", "modding", "hot-reload", "cpp"],
+	"description": "Load and run compiled cppia scripts in hxcpp games: entry classes, script instances, calls, groups with priorities, hot reload, error reporting and a build tool.",
+	"version": "1.0.0",
+	"releasenote": "First release, moved out of Funkin' Psych.",
+	"classPath": "src",
+	"contributors": ["Brenninho"],
+	"dependencies": {}
+}

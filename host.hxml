@@ -1,0 +1,7 @@
+-cp src
+-cp tests
+-main Host
+-D scriptable
+-D dll_export=tests/bin/export_classes.info
+-dce no
+-cpp tests/bin/host
