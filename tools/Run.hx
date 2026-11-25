@@ -33,8 +33,8 @@ class Run
 	{
 		Sys.println("cppia tools");
 		Sys.println("");
-		Sys.println("  haxelib run cppia build <Main> [-cp dir] [-o out.cppia] [--host export_classes.info] [haxe args]");
-		Sys.println("  haxelib run cppia new <Name> [folder]");
+		Sys.println("  haxelib run hxcppia build <Main> [-cp dir] [-o out.cppia] [--host export_classes.info] [haxe args]");
+		Sys.println("  haxelib run hxcppia new <Name> [folder]");
 	}
 
 	static function build(args:Array<String>):Int
@@ -130,7 +130,7 @@ class $name extends cppia.CppiaScript
 }
 ');
 		File.saveContent('$folder/build.hxml', '-cp .
--lib cppia
+-lib hxcppia
 $name
 -cppia $name.cppia
 -D cppia_script

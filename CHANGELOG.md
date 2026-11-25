@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.1
+-----
+
+- The haxelib is now called `hxcppia`, because the `cppia` define it created turned the host build into a cppia build.
+
 1.0.0
 -----
 

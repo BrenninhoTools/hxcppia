@@ -11,8 +11,10 @@ Load and run [cppia](https://haxe.org/manual/target-cppia.html) scripts in hxcpp
 
 ## Install
 
+The haxelib is called `hxcppia`: a library named `cppia` would define `cppia` and make Haxe compile the whole game as a cppia script.
+
 ```
-haxelib git cppia https://github.com/BrenninhoTools/cppia
+haxelib git hxcppia https://github.com/BrenninhoTools/cppia
 ```
 
 ## Host (the game)
@@ -63,7 +65,7 @@ module.destroy();
 ## Scripts
 
 ```
-haxelib run cppia new MyScript scripts/MyScript
+haxelib run hxcppia new MyScript scripts/MyScript
 ```
 
 ```haxe
@@ -83,7 +85,7 @@ class MyScript extends cppia.CppiaScript
 Build it with the game's `export_classes.info` next to it:
 
 ```
-haxelib run cppia build MyScript -cp scripts/MyScript -o MyScript.cppia --host export_classes.info
+haxelib run hxcppia build MyScript -cp scripts/MyScript -o MyScript.cppia --host export_classes.info
 ```
 
 Scripts built against an older `export_classes.info` should be rebuilt when the game's classes change.

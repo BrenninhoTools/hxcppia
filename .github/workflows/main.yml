@@ -36,6 +36,6 @@ jobs:
       - name: Tool
         shell: bash
         run: |
-          haxelib dev cppia .
-          haxelib run cppia new Demo tests/bin/demo
+          haxelib dev hxcppia .
+          haxelib run hxcppia new Demo tests/bin/demo
           test -f tests/bin/demo/Demo.hx
